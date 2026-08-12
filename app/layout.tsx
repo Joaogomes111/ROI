@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://roicontabilidade.com.br"),
   title: "Diagnóstico Simples Nacional Híbrido | ROI Contabilidade",
   description:
     "Responda ao diagnóstico da ROI Contabilidade e entenda se o Simples Nacional Híbrido deve entrar no radar da sua empresa.",
