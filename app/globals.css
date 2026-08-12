@@ -187,6 +187,18 @@ img {
   transform: translateY(-2px);
 }
 
+.diagnosticCard .secondaryButton {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.diagnosticCard .secondaryButton:hover {
+  color: var(--navy);
+  background: var(--white);
+  border-color: var(--white);
+}
+
 .textButton {
   color: var(--navy);
   background: transparent;
@@ -292,10 +304,13 @@ img {
 
 .diagnosticCard {
   min-height: 500px;
-  border: 1px solid rgba(0, 21, 73, 0.1);
+  border: 1px solid rgba(81, 194, 229, 0.36);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: var(--shadow);
+  color: var(--white);
+  background:
+    linear-gradient(145deg, rgba(81, 194, 229, 0.2) 0, rgba(81, 194, 229, 0) 34%),
+    linear-gradient(155deg, var(--navy) 0%, #08245d 58%, #0b3076 100%);
+  box-shadow: 0 30px 80px rgba(0, 21, 73, 0.26);
   overflow: hidden;
   animation: cardIn 520ms ease both;
 }
@@ -308,7 +323,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--navy);
+  color: var(--white);
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -321,13 +336,14 @@ img {
   margin-top: 14px;
   overflow: hidden;
   border-radius: 50px;
-  background: #e8f0f7;
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .progressTrack div {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--cyan), var(--navy));
+  background: linear-gradient(90deg, var(--cyan-2), var(--white));
+  box-shadow: 0 0 22px rgba(81, 194, 229, 0.45);
   transition: width 300ms ease;
 }
 
@@ -337,7 +353,7 @@ img {
 
 .panelContent h2 {
   margin: 12px 0 14px;
-  color: var(--navy);
+  color: var(--white);
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 30px;
   font-weight: 700;
@@ -347,7 +363,7 @@ img {
 
 .panelContent p {
   margin: 0;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 18px;
 }
 
@@ -362,10 +378,10 @@ img {
   display: grid;
   place-items: center;
   min-height: 68px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  color: var(--navy);
-  background: var(--soft);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -376,7 +392,7 @@ img {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.74);
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 13px;
   font-weight: 700;
@@ -385,6 +401,7 @@ img {
 .questionSub {
   margin-top: -4px;
   margin-bottom: 24px !important;
+  color: rgba(255, 255, 255, 0.72) !important;
   font-size: 16px !important;
 }
 
@@ -401,11 +418,11 @@ img {
   align-items: center;
   width: 100%;
   min-height: 64px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.64);
   border-radius: 8px;
   padding: 16px 18px;
   color: #233047;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.96);
   text-align: left;
   cursor: pointer;
   transition:
@@ -416,8 +433,9 @@ img {
 }
 
 .optionButton:hover {
-  border-color: rgba(81, 194, 229, 0.76);
-  box-shadow: 0 12px 28px rgba(0, 21, 73, 0.08);
+  border-color: var(--cyan-2);
+  background: var(--white);
+  box-shadow: 0 14px 32px rgba(0, 21, 73, 0.24);
   transform: translateY(-1px);
 }
 
@@ -470,6 +488,11 @@ img {
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 13px;
   font-weight: 700;
+}
+
+.diagnosticCard .formGrid label,
+.diagnosticCard .consentLine {
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .formGrid input {
@@ -611,24 +634,25 @@ img {
 }
 
 .resultHeader p {
+  color: rgba(255, 255, 255, 0.76);
   font-size: 15px;
 }
 
 .resultMessage {
   margin-top: 24px !important;
-  color: #445068 !important;
+  color: rgba(255, 255, 255, 0.78) !important;
   font-size: 17px !important;
 }
 
 .resultBlock {
   margin-top: 24px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 22px;
 }
 
 .resultBlock h3 {
   margin: 0 0 12px;
-  color: var(--navy);
+  color: var(--white);
   font-family: "Poppins", "Cambay", sans-serif;
   font-size: 18px;
   letter-spacing: 0;
@@ -639,7 +663,7 @@ img {
   gap: 10px;
   margin: 0;
   padding-left: 20px;
-  color: #435066;
+  color: rgba(255, 255, 255, 0.78);
   font-size: 16px;
 }
 
@@ -647,8 +671,8 @@ img {
   margin-top: 22px !important;
   padding: 16px;
   border-left: 4px solid var(--cyan);
-  background: var(--soft);
-  color: #435066 !important;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.78) !important;
   font-size: 15px !important;
 }
 
