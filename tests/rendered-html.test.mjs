@@ -11,7 +11,8 @@ test("keeps the project focused on the finished diagnostic", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /sheetsWebhookUrl:\s*""/);
+  assert.match(page, /\/api\/leads/);
+  await access(new URL("../app/api/leads/route.ts", import.meta.url));
   assert.match(page, /roi_diagnostico_leads/);
   assert.match(page, /principal p.+blico que compra da sua empresa\?/);
   assert.match(page, /Autorizo a ROI Contabilidade/);

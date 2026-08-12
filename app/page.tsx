@@ -42,7 +42,6 @@ const CONFIG = {
   firmName: "Roi Contabilidade",
   firmEmail: "comercial@roicontabilidade.com.br",
   whatsappNumber: "554733492772",
-  sheetsWebhookUrl: "",
 };
 
 const QUESTIONS: Question[] = [
@@ -365,16 +364,21 @@ async function persistLead(payload: unknown) {
     // Local fallback is best-effort only.
   }
 
-  if (!CONFIG.sheetsWebhookUrl) return;
+  try {
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  await fetch(CONFIG.sheetsWebhookUrl, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8",
-    },
-    body: JSON.stringify(payload),
-  });
+    if (!response.ok) {
+      throw new Error(`Lead API returned ${response.status}`);
+    }
+  } catch (error) {
+    console.warn("Lead could not be sent to Google Sheets.", error);
+  }
 }
 
 export default function Home() {

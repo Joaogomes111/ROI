@@ -42,3 +42,13 @@ npm test
 ## Proximo passo
 
 Conectar o envio do formulario a uma planilha do Google Sheets ou endpoint intermediario para depois exportar os leads para o RD Station.
+
+## Google Sheets
+
+O formulario envia os leads para `/api/leads`. Essa rota usa a variavel de ambiente `GOOGLE_SHEETS_WEBHOOK_URL` para encaminhar os dados ao Google Apps Script.
+
+1. Crie uma planilha no Google Sheets.
+2. Abra `Extensoes > Apps Script`.
+3. Use o codigo em `docs/google-sheets-apps-script.gs`.
+4. Publique como aplicativo da Web.
+5. Configure a URL publicada na Vercel em `GOOGLE_SHEETS_WEBHOOK_URL`.
