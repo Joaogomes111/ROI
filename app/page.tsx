@@ -377,7 +377,7 @@ async function persistLead(payload: unknown) {
       throw new Error(`Lead API returned ${response.status}`);
     }
   } catch (error) {
-    console.warn("Lead could not be sent to Google Sheets.", error);
+    console.warn("Lead could not be sent to the configured destinations.", error);
   }
 }
 
