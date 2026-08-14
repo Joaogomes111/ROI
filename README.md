@@ -8,7 +8,8 @@ Landing page interativa para diagnosticar se uma empresa precisa avaliar a adesa
 - Questionario com pontuacao e diagnostico final
 - Formulario de lead com nome, empresa, email, WhatsApp, CNPJ e cargo
 - Botao de WhatsApp com mensagem pre-preenchida
-- Estrutura preparada para conectar futuramente a uma planilha/endpoint
+- Envio dos leads para Google Sheets e RD Station via rota segura no backend
+- Google Analytics 4 configurado com a tag `G-72KFD3RXMX`
 
 ## Requisitos
 
@@ -39,9 +40,21 @@ npm test
 - `app/layout.tsx`: metadados da pagina
 - `public/`: imagens e favicon
 
-## Proximo passo
+## Variaveis de ambiente
 
-Conectar o envio do formulario a uma planilha do Google Sheets ou endpoint intermediario para depois exportar os leads para o RD Station.
+Configure os destinos em `.env.local` no ambiente local e em `Settings > Environment Variables` na Vercel.
+
+```bash
+GOOGLE_SHEETS_WEBHOOK_URL=
+RD_STATION_API_KEY=
+RD_STATION_CONVERSION_IDENTIFIER=Diagnostico Simples Nacional Hibrido
+RD_STATION_TAGS=diagnostico-simples-hibrido,roi-contabilidade
+RD_FIELD_CNPJ=
+RD_FIELD_RESULT_PERCENTAGE=
+RD_FIELD_RESULT_BAND=
+```
+
+`GOOGLE_SHEETS_WEBHOOK_URL` mantem a planilha como backup. `RD_STATION_API_KEY` envia o lead direto para o RD Station. As variaveis `RD_FIELD_*` sao opcionais e devem receber o `api_identifier` dos campos personalizados criados na RD.
 
 ## Google Sheets
 
@@ -52,3 +65,37 @@ O formulario envia os leads para `/api/leads`. Essa rota usa a variavel de ambie
 3. Use o codigo em `docs/google-sheets-apps-script.gs`.
 4. Publique como aplicativo da Web.
 5. Configure a URL publicada na Vercel em `GOOGLE_SHEETS_WEBHOOK_URL`.
+
+A aba `Leads` fica enxuta para importacao no RD Station, com estes campos:
+
+- Data de conversao
+- Nome
+- Empresa
+- Email
+- WhatsApp
+- CNPJ
+- Cargo
+- Resultado %
+- Faixa do diagnostico
+- Origem
+
+## RD Station
+
+O mesmo envio para `/api/leads` tambem dispara uma conversao para o RD Station quando `RD_STATION_API_KEY` esta configurada.
+
+1. No RD Station Marketing, gere uma API Key para integracoes de conversao.
+2. Na Vercel, adicione `RD_STATION_API_KEY` em Production, marcada como Sensitive.
+3. Opcionalmente ajuste `RD_STATION_CONVERSION_IDENTIFIER` para o nome da conversao que aparecera na linha do tempo do lead.
+4. Se quiser levar CNPJ, percentual e faixa para campos personalizados da RD, crie esses campos na RD e preencha `RD_FIELD_CNPJ`, `RD_FIELD_RESULT_PERCENTAGE` e `RD_FIELD_RESULT_BAND` com os respectivos `api_identifier`.
+5. Suba os arquivos para o GitHub e aguarde novo deploy da Vercel.
+
+Campos padrao enviados para a RD:
+
+- Nome
+- Email
+- Empresa
+- Cargo
+- WhatsApp como celular
+- Origem de trafego
+- Tags do diagnostico
+- Base legal de consentimento para comunicacoes
