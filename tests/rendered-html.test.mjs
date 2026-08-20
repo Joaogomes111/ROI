@@ -21,6 +21,10 @@ test("keeps the project focused on the finished diagnostic", async () => {
   assert.match(layout, /lang="pt-BR"/);
   assert.match(layout, /G-72KFD3RXMX/);
   assert.match(layout, /googletagmanager\.com\/gtag\/js/);
+  assert.match(layout, /NEXT_PUBLIC_META_PIXEL_ID/);
+  assert.match(layout, /1035841049088530/);
+  assert.match(layout, /connect\.facebook\.net\/en_US\/fbevents\.js/);
+  assert.match(page, /window\.fbq\("track", "Lead"/);
   assert.match(packageJson, /"next":/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton|vinext|wrangler|@cloudflare\/vite-plugin/);
   assert.match(leadRoute, /GOOGLE_SHEETS_WEBHOOK_URL/);
@@ -28,6 +32,7 @@ test("keeps the project focused on the finished diagnostic", async () => {
   assert.match(leadRoute, /api\.rd\.services\/platform\/conversions/);
   assert.match(envExample, /^GOOGLE_SHEETS_WEBHOOK_URL=/m);
   assert.match(envExample, /^RD_STATION_API_KEY=/m);
+  assert.match(envExample, /^NEXT_PUBLIC_META_PIXEL_ID=/m);
 
   await assert.rejects(access(new URL("../app/_sites-preview", import.meta.url)));
   await access(new URL("../public/logo-roi.jpg", import.meta.url));

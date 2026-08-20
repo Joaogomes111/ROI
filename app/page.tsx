@@ -38,6 +38,16 @@ type ResultBand = {
   cta: string;
 };
 
+declare global {
+  interface Window {
+    fbq?: (
+      command: "track",
+      eventName: "Lead",
+      params?: Record<string, string | number>,
+    ) => void;
+  }
+}
+
 const CONFIG = {
   firmName: "Roi Contabilidade",
   firmEmail: "comercial@roicontabilidade.com.br",
@@ -381,6 +391,17 @@ async function persistLead(payload: unknown) {
   }
 }
 
+function trackMetaLead(scorePct: number, band: ResultBand) {
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+
+  window.fbq("track", "Lead", {
+    content_category: "diagnostico-tributario",
+    content_name: "Diagnostico Simples Nacional Hibrido",
+    diagnostic_percentage: scorePct,
+    diagnostic_result: band.key,
+  });
+}
+
 export default function Home() {
   const [phase, setPhase] = useState<"intro" | "quiz" | "lead" | "result">("intro");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -512,6 +533,7 @@ export default function Home() {
     setIsSubmitting(true);
     try {
       await persistLead(payload);
+      trackMetaLead(scorePct, band);
       setLeadData(leadForm);
       setPhase("result");
       scrollToDiagnostic();

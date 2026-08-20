@@ -1,7 +1,7 @@
 const SHEET_NAME = "Leads";
 
 const HEADERS = [
-  "Recebido em",
+  "Data de conversao",
   "Nome",
   "Empresa",
   "Email",
@@ -9,20 +9,14 @@ const HEADERS = [
   "CNPJ",
   "Cargo",
   "Resultado %",
-  "Score bruto",
-  "Score maximo",
-  "Faixa",
-  "Fatores",
-  "Respostas",
-  "Respostas JSON",
-  "URL da pagina",
-  "Referrer",
-  "UTM source",
-  "UTM medium",
-  "UTM campaign",
-  "UTM content",
-  "UTM term",
+  "Faixa do diagnostico",
+  "Origem",
 ];
+
+function setupSheet() {
+  getLeadSheet_();
+  return json_({ ok: true, message: "Lead sheet is ready for RD import." });
+}
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -33,35 +27,18 @@ function doPost(e) {
     const sheet = getLeadSheet_();
     const lead = payload.lead || {};
     const diagnostic = payload.diagnostic || {};
-    const tracking = payload.tracking || {};
-    const answers = payload.answers || [];
 
     sheet.appendRow([
-      new Date(),
+      payload.created_at ? new Date(payload.created_at) : new Date(),
       lead.nome || "",
       lead.empresa || "",
       lead.email || "",
       lead.whatsapp || "",
       lead.cnpj || "",
       lead.cargo || "",
-      diagnostic.percentage || "",
-      diagnostic.raw_score || "",
-      diagnostic.max_score || "",
+      diagnostic.percentage === 0 ? 0 : diagnostic.percentage || "",
       diagnostic.band || "",
-      Array.isArray(diagnostic.factors) ? diagnostic.factors.join("\n") : "",
-      Array.isArray(answers)
-        ? answers.map(function (answer) {
-            return answer.id + " - " + answer.question + ": " + answer.answer;
-          }).join("\n\n")
-        : "",
-      JSON.stringify(answers),
-      tracking.page_url || "",
-      tracking.referrer || "",
-      tracking.utm_source || "",
-      tracking.utm_medium || "",
-      tracking.utm_campaign || "",
-      tracking.utm_content || "",
-      tracking.utm_term || "",
+      "Diagnostico Simples Nacional Hibrido",
     ]);
 
     return json_({ ok: true });
@@ -84,16 +61,18 @@ function getLeadSheet_() {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
   }
 
-  const firstRow = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
-  const hasHeaders = firstRow.some(function (value) {
-    return value !== "";
-  });
-
-  if (!hasHeaders) {
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-    sheet.setFrozenRows(1);
-    sheet.autoResizeColumns(1, HEADERS.length);
+  if (sheet.getMaxColumns() < HEADERS.length) {
+    sheet.insertColumnsAfter(sheet.getMaxColumns(), HEADERS.length - sheet.getMaxColumns());
   }
+
+  sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  sheet.setFrozenRows(1);
+
+  if (sheet.getMaxColumns() > HEADERS.length) {
+    sheet.deleteColumns(HEADERS.length + 1, sheet.getMaxColumns() - HEADERS.length);
+  }
+
+  sheet.autoResizeColumns(1, HEADERS.length);
 
   return sheet;
 }
